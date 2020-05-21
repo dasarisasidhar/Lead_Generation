@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <form class="form-inline" method="POST" action="/search">
+        <h1></h1>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="q" class="sr-only">Query</label>
+            <input type="text" class="form-control" name="q" id="q" placeholder="Your query">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+        
+{% endblock %}
