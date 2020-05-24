@@ -13,6 +13,8 @@ from selenium import webdriver
 import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+import pandas as pd
+from flask import send_file
 
 @app.route('/')
 @app.route('/home')
@@ -28,13 +30,21 @@ def home():
 def search():
     details = dict(request.form)
     data = get_data(details["q"])
-    print(data)
     return render_template(
         'index.html',
         title='Home Page',
         year=datetime.now().year,
         data = data,
     )
+
+@app.route('/download')
+def download():
+    #df = pd.DataFrame(searchresults)
+    #data = df.to_csv()
+    #path = data
+    data  = ["a", "b"]
+    df = pd.DataFrame(data)
+    return send_file(df.to_csv(), as_attachment=True)
 
 chromeOptions = Options()
 chromeOptions.add_argument("--headless")
@@ -53,12 +63,12 @@ def get_data(query):
         #data_tag_code =   html_code.find_all("div", class_="section-layout section-scrollbox scrollable-y scrollable-show section-layout-flex-vertical")
         data_tag_code =   html_code.find_all("div", class_="section-result")
         #print(data_tag_code1)
-        details = list()
+        global searchresults 
+        searchresults = list()
         for i in data_tag_code:
             if(i["aria-label"]):
-                details.append(i["aria-label"])
-
-        return details
+                searchresults.append(i["aria-label"])
+        return searchresults
 
     except Exception as e:
             print(e)

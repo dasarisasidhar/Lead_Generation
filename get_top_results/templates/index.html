@@ -28,6 +28,11 @@
     </tbody>
 </table>
 
-{% endif %}
+<!--<form action="/download">
+    <button type="submit" class="btn btn-primary mb-2">download</button>
+</form>-->
+<a href="{{ url_for('.download') }}">Download</a>
 
-{% endblock %}
+    {% endif %}
+
+    {% endblock %}
