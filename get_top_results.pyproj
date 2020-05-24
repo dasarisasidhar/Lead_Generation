@@ -17,6 +17,7 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>get_top_results</Name>
     <RootNamespace>get_top_results</RootNamespace>
+    <InterpreterId>MSBuild|get_results_env|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +66,17 @@
     <Content Include="get_top_results\static\scripts\_references.js" />
     <Content Include="get_top_results\templates\index.html" />
     <Content Include="get_top_results\templates\layout.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="get_results_env\">
+      <Id>get_results_env</Id>
+      <Version>3.8</Version>
+      <Description>get_results_env (Python 3.8 (32-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X86</Architecture>
+    </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 
