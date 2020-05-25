@@ -28,6 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="get_top_results\db.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="runserver.py" />
     <Compile Include="get_top_results\__init__.py" />
     <Compile Include="get_top_results\views.py" />
@@ -41,6 +44,7 @@
     <Folder Include="get_top_results\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="get_top_results\templates\login.html" />
     <Content Include="requirements.txt" />
     <Content Include="get_top_results\static\content\bootstrap.css" />
     <Content Include="get_top_results\static\content\bootstrap.min.css" />
