@@ -3,18 +3,23 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template
-from get_top_results import app
-from flask import request
 import json
 import requests
 import time
-from flask import send_file
 import googlemaps 
+import config
+from get_top_results import app
 from get_top_results import db
+from flask import render_template
+from flask import request
+from flask import session
+from flask import send_file
+from flask import g
 
 
-gmaps = googlemaps.Client(key = "AIzaSyCFUBzYLW1sVSF2Q8laM_Sbo9JhOKqYiU0")
+
+gmaps = config.dev_config.maps_key
+jwt_key = config.dev_config.jwt_key
 
 @app.before_request
 def before_request(): 
