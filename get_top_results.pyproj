@@ -43,12 +43,17 @@
     <Folder Include="get_top_results\" />
     <Folder Include="get_top_results\static\" />
     <Folder Include="get_top_results\static\content\" />
+    <Folder Include="get_top_results\static\csv\" />
     <Folder Include="get_top_results\static\fonts\" />
     <Folder Include="get_top_results\static\scripts\" />
     <Folder Include="get_top_results\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="get_top_results\static\csv\data.csv" />
+    <Content Include="get_top_results\templates\404.html" />
     <Content Include="get_top_results\templates\login.html" />
+    <Content Include="get_top_results\templates\search_existing.html" />
+    <Content Include="get_top_results\templates\search_new.html" />
     <Content Include="requirements.txt" />
     <Content Include="get_top_results\static\content\bootstrap.css" />
     <Content Include="get_top_results\static\content\bootstrap.min.css" />

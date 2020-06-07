@@ -8,6 +8,8 @@ import requests
 import time
 import googlemaps 
 import config
+import os
+import pandas as pd
 from get_top_results import app
 from get_top_results import db
 from flask import render_template
@@ -69,16 +71,19 @@ def search():
     #data = get_details(details["q"])
     return render_template(
         'index.html',
-        title='Home Page',
+        title='search Page',
         year=datetime.now().year,
         data = data,
     )
 
 @app.route('/download')
 def download():
-    data  = ["a", "b"]
-    df = pd.DataFrame(data)
-    return send_file(df.to_csv(), as_attachment=True)
+    current_path = os.getcwd()
+    file_name = "data.csv"
+    file  = current_path + "\\get_top_results\\static\\csv\\" + file_name
+    return send_file(file, as_attachment=True)
+
+
 
 def get_data(query):
     try:
@@ -123,22 +128,23 @@ def login_details():
     details = dict(request.form)
     session.pop("user", None)
     if(len(details["id"])> 4 and len(details["pswd"])>4):
-        admin_details = db.check_login(details)
+        admin_details = db.check_admin(details)
         if admin_details == True:
             payload= {"admin_id" : details["id"],
                       'iat': datetime.utcnow(),
                       'exp': datetime.utcnow()+timedelta(days = 2)}
             session['admin'] = jwt.encode(payload, jwt_key, algorithm = 'HS256')
             return render_template(
-                'admin/upload_details.html',
+                'query_results.html',
                 title='upload detail',
                 year=datetime.now().year,
                 )  
     
         elif admin_details == False:
             error = "error in login details"
-        agent_details = db.check_login(details)
-        if agent_details == True:
+
+        user_details = db.check_user(details)
+        if user_details == True:
             payload= {"user_id" : details["id"],
                       'iat': datetime.utcnow(),
                       'exp': datetime.utcnow()+timedelta(days = 1)}
@@ -152,7 +158,7 @@ def login_details():
                 response = status_response,
                 agent = details["id"])
         else:
-            error = agent_details
+            error = user_details
             return redirect(url_for('assign_agent'))
     else:
         return redirect(url_for('login'))
