@@ -76,6 +76,14 @@ def search():
         data = data,
     )
 
+@app.route('/search_for_leads')
+def search_for_leads():
+    return render_template(
+        'search_for_leads.html',
+        title='Home Page',
+        year=datetime.now().year,
+    )
+
 @app.route('/download')
 def download():
     current_path = os.getcwd()
