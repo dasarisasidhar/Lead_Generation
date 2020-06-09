@@ -2,13 +2,14 @@
 Routes and views for the flask application.
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import requests
 import time
 import googlemaps 
 import config
 import os
+import jwt
 import pandas as pd
 from get_top_results import app
 from get_top_results import db
@@ -22,6 +23,7 @@ from flask import g
 
 gmaps = config.dev_config.maps_key
 jwt_key = config.dev_config.jwt_key
+app.secret_key = config.dev_config.secret_key
 
 @app.before_request
 def before_request(): 
@@ -136,14 +138,14 @@ def login_details():
     details = dict(request.form)
     session.pop("user", None)
     if(len(details["id"])> 4 and len(details["pswd"])>4):
-        admin_details = db.check_admin(details)
+        admin_details = db.admin.check_login(details)
         if admin_details == True:
             payload= {"admin_id" : details["id"],
                       'iat': datetime.utcnow(),
                       'exp': datetime.utcnow()+timedelta(days = 2)}
             session['admin'] = jwt.encode(payload, jwt_key, algorithm = 'HS256')
             return render_template(
-                'query_results.html',
+                'admin/search_for_leads.html',
                 title='upload detail',
                 year=datetime.now().year,
                 )  
@@ -159,7 +161,7 @@ def login_details():
             session['user'] = jwt.encode(payload, jwt_key, algorithm = 'HS256')
             applications = agent.agent_control.get_applications(details["id"])
             return render_template(
-                'agent/process.html',
+                'search_for_leads.html',
                 title='upload detail',
                 year=datetime.now().year,
                 applications = applications,

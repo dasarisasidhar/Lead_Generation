@@ -54,6 +54,7 @@
     <Content Include="get_top_results\templates\404.html" />
     <Content Include="get_top_results\templates\admin\create_user.html" />
     <Content Include="get_top_results\templates\admin\layout.html" />
+    <Content Include="get_top_results\templates\admin\search_for_leads.html" />
     <Content Include="get_top_results\templates\login.html" />
     <Content Include="get_top_results\templates\search_existing.html" />
     <Content Include="get_top_results\templates\search_for_leads.html" />

@@ -1,0 +1,38 @@
+﻿{% extends "admin/layout.html" %}
+
+{% block content %}
+<form class="form-inline" method="POST" action="/search">
+    <h1></h1>
+    <div class="form-group mx-sm-3 mb-2">
+        <label for="q" class="sr-only">Query</label>
+        <input type="text" class="form-control" name="q" id="q" placeholder="Your query">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Search</button>
+</form>
+
+{% if  data  %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in data %}
+        <tr>
+            <!--<th scope="row"></th>-->
+            <td>{{ i }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!--<form action="/download">
+    <button type="submit" class="btn btn-primary mb-2">download</button>
+</form>-->
+<a href="{{ url_for('.download') }}">Download</a>
+
+    {% endif %}
+
+    {% endblock %}

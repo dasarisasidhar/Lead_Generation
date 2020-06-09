@@ -14,6 +14,7 @@ class users:
 class admin:
     def check_login(data):
         try:
+            admin_users.insert_one({"user_id":"admin@telyport.com", "password":"Telyport@123"})
             admin_details = admin_users.find_one({"user_id":data["id"]})
             if(admin_details["password"] == data["pswd"]):
                 return True
