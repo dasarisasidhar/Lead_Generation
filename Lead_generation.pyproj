@@ -16,7 +16,7 @@
     <WebBrowserUrl>http://localhost</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
-    <Name>get_top_results</Name>
+    <Name>Lead_generation</Name>
     <RootNamespace>get_top_results</RootNamespace>
     <InterpreterId>MSBuild|get_results_env|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="get_top_results\" />
+    <Folder Include="Lead_generation\" />
     <Folder Include="get_top_results\static\" />
     <Folder Include="get_top_results\static\content\" />
     <Folder Include="get_top_results\static\csv\" />

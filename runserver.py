@@ -3,7 +3,7 @@ This script runs the get_top_results application using a development server.
 """
 
 from os import environ
-from get_top_results import app
+from Lead_generation import app
 
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')

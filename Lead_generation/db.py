@@ -1,6 +1,7 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import config
 
+ts = datetime.now().timestamp()
 client = config.dev_config.DATABASE_URI
 
 db = client['Lead_Generation']
@@ -12,8 +13,23 @@ class user:
     def create_user(data):
         try:
             users.insert_one({"name":data['name'],"email":data["email"].lower(),"pswd":data["pswd"], 
-                                    "created_date":current_date, "is_active":True})
+                                    "created_datetime":ts, "is_active":True})
             return True
+        except Exception as e:
+            print(e)
+            return False
+            
+    def check_login(details):
+        try:
+            user_details = agent_users.find_one({"email":details["id"].lower()})
+            if(user_details["pswd"] == details["pswd"] and user_details["is_active"] == True):
+                return True
+            elif(user_details["pswd"] != details["pswd"]):
+                return "wrong password"
+            elif(user_details["is_active"] == False):
+                return "Agent is not active, please activate agent"
+            else:
+                return False
         except Exception as e:
             print(e)
             return False

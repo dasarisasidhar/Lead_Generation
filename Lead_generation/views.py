@@ -193,7 +193,7 @@ def login_details():
         elif admin_details == False:
             error = "error in login details"
 
-        user_details = db.check_user(details)
+        user_details = db.user.check_login(details)
         if user_details == True:
             payload= {"user_id" : details["id"],
                       'iat': datetime.utcnow(),
@@ -209,6 +209,6 @@ def login_details():
                 agent = details["id"])
         else:
             error = user_details
-            return redirect(url_for('assign_agent'))
+            return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
