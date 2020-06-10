@@ -21,7 +21,7 @@ class user:
             
     def check_login(details):
         try:
-            user_details = agent_users.find_one({"email":details["id"].lower()})
+            user_details = users.find_one({"email":details["id"].lower()})
             if(user_details["pswd"] == details["pswd"] and user_details["is_active"] == True):
                 return True
             elif(user_details["pswd"] != details["pswd"]):

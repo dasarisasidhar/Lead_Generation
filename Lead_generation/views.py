@@ -71,13 +71,12 @@ def home():
 @app.route('/search', methods = ["POST"])
 def search():
     details = dict(request.form)
-    #data = get_details(details["q"])
+    data = search_query(details["q"])
     return render_template(
         'index.html',
         title='search Page',
         year=datetime.now().year,
-        data = data,
-    )
+        data = data)
 
 @app.route('/search_for_leads')
 def search_for_leads():
@@ -96,25 +95,16 @@ def download():
 
 
 
-def get_data(query):
+def search_query(query):
     try:
-        pass
-         
-    except Exception as e:
-            print(e)
-            details = ["details not found"]
-            return details
-
-
-def get_details(q):
-    try:
-        places_data = gmaps.places(query=str(q))
+        places_data = gmaps.places(query=str(query))
         details = list()
         for i in places_data["results"]:
             ref = i["reference"]
             data = requests.get(f'https://maps.googleapis.com/maps/api/place/details/json?placeid={ref}&key=AIzaSyCFUBzYLW1sVSF2Q8laM_Sbo9JhOKqYiU0')
             data = data.json()
             data = data["result"]
+            print(results)
             details.append(i["name"] ,data["formatted_phone_number"])  
             break
         return details
@@ -122,6 +112,8 @@ def get_details(q):
             print(e)
             details = ["details not found"]
             return details
+
+
 
 
 @app.route('/login')
@@ -199,14 +191,10 @@ def login_details():
                       'iat': datetime.utcnow(),
                       'exp': datetime.utcnow()+timedelta(days = 1)}
             session['user'] = jwt.encode(payload, jwt_key, algorithm = 'HS256')
-            applications = agent.agent_control.get_applications(details["id"])
             return render_template(
                 'search_for_leads.html',
-                title='upload detail',
-                year=datetime.now().year,
-                applications = applications,
-                response = status_response,
-                agent = details["id"])
+                title='Search',
+                year=datetime.now().year)
         else:
             error = user_details
             return redirect(url_for('login'))
