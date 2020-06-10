@@ -18,7 +18,8 @@ from flask import request
 from flask import session
 from flask import send_file
 from flask import g
-
+from flask import redirect
+from flask import url_for
 
 
 gmaps = config.dev_config.maps_key
@@ -131,6 +132,45 @@ def login():
         title='login',
         year=datetime.now().year
     )
+
+@app.route('/create_user')
+def create_user():
+    if g.admin:
+        return render_template(
+                'admin/create_user.html',
+                title='create agent',
+                year=datetime.now().year,
+            )
+    else:
+        return render_template(
+        'login.html',
+        title='login',
+        year=datetime.now().year,
+        error = "Please login as admin user to access this page"
+    )
+    
+@app.route('/create_user', methods = ["POST"])
+def creating_user():
+    """create agent."""
+    if g.admin:
+        details = dict(request.form)
+        if (len(details["name"])>3  and len(details["pswd"])>4, len(details["email"])>4  and
+            db.user.create_user(details) == True):
+            return render_template(
+                'admin/search_for_leads.html',
+                title='upload detail',
+                year=datetime.now().year,
+                )
+        else:
+            return redirect(url_for('create_user'))
+    else:
+        return render_template(
+        'login.html',
+        title='login',
+        year=datetime.now().year,
+        error = "Please login as admin user to access this page"
+    )
+
 
 @app.route('/login', methods = ["POST"])
 def login_details():

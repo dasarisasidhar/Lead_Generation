@@ -8,13 +8,19 @@ admin_users = db['admin_users']
 users = db['users']
 search_results = db["search_results"]
 
-class users:
-    pass
+class user:
+    def create_user(data):
+        try:
+            users.insert_one({"name":data['name'],"email":data["email"].lower(),"pswd":data["pswd"], 
+                                    "created_date":current_date, "is_active":True})
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
 class admin:
     def check_login(data):
         try:
-            admin_users.insert_one({"user_id":"admin@telyport.com", "password":"Telyport@123"})
             admin_details = admin_users.find_one({"user_id":data["id"]})
             if(admin_details["password"] == data["pswd"]):
                 return True
@@ -24,7 +30,7 @@ class admin:
             print(e)
             return False
 
-class search_results:
+class search_result:
     pass
 
 
