@@ -20,9 +20,10 @@ from flask import send_file
 from flask import g
 from flask import redirect
 from flask import url_for
+import googlemaps 
 
-
-gmaps = config.dev_config.maps_key
+gmaps = googlemaps.Client(key = "AIzaSyCNTQTKtive3OCEaN6081u8GEEM1andX-I")
+#config.dev_config.maps_key
 jwt_key = config.dev_config.jwt_key
 app.secret_key = config.dev_config.secret_key
 
@@ -58,7 +59,7 @@ def logout():
         message = "logged out successfully"
         )
 
-@app.route('/')
+@app.route('/') 
 @app.route('/home')
 def home():
     """Renders the home page."""
@@ -73,7 +74,7 @@ def search():
     details = dict(request.form)
     data = search_query(details["q"])
     return render_template(
-        'index.html',
+        'search_for_leads.html',
         title='search Page',
         year=datetime.now().year,
         data = data)
@@ -90,7 +91,7 @@ def search_for_leads():
 def download():
     current_path = os.getcwd()
     file_name = "data.csv"
-    file  = current_path + "\\get_top_results\\static\\csv\\" + file_name
+    file  = current_path + "\\Lead_generation\\static\\csv\\" + file_name
     return send_file(file, as_attachment=True)
 
 
@@ -101,11 +102,13 @@ def search_query(query):
         details = list()
         for i in places_data["results"]:
             ref = i["reference"]
-            data = requests.get(f'https://maps.googleapis.com/maps/api/place/details/json?placeid={ref}&key=AIzaSyCFUBzYLW1sVSF2Q8laM_Sbo9JhOKqYiU0')
+            data = requests.get(f'https://maps.googleapis.com/maps/api/place/details/json?placeid={ref}&key=AIzaSyD-tPkY3tKX0C9qraCTLdHEB_rZ9QqH9GI')
             data = data.json()
+            print(data)
+            print("--------------------------------------------------------")
             data = data["result"]
             print(results)
-            details.append(i["name"] ,data["formatted_phone_number"])  
+            details.append(i["name"] ,data["formatted_phone_number"], "email", "web address")  
             break
         return details
     except Exception as e:
